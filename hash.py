@@ -1,15 +1,14 @@
-import hashlib
-import strings
+import hashlib ## import hash library to utilize sha256 hash
 import os
 from os.path import join, getsize
 from os.stat import os.stat_result
 import glob
-unauthorized = ["/proc/", "/dev/", "/run/", "/sys/", "/tmp/", "/var/lib/", "/var/run/"]
+unauthorized = ["/proc/", "/dev/", "/run/", "/sys/", "/tmp/", "/var/lib/", "/var/run/"] ## list of directories that should be skipped when iterating through the directories
 fileList = []
 
 
 
-def main():
+def main(): ## this function will iterate through the directories, call the hashing function, and store the filename and path in a tuple in a list
   for root, dirs, files in os.walk(top, topdown=false): ##returns 3-tuple (dirpath, dirnames, filenames)
     for x in dirs:
       if x in unauthorized:
@@ -21,7 +20,7 @@ def main():
   compare_files()
    
 
-def hashing(file):
+def hashing(file): ## this function will hash each file and add file hash, filename, and file path into a log file 
   fileInfo = ""
   hash_object = hashlib.new('sha256')
   with open(file, 'rb') as f:
@@ -32,7 +31,7 @@ def hashing(file):
         fileInfo += hash_object.hexidigest() + "," + pair[0] + "," + pair[1] + "\n"
       g.write(fileInfo)
       
-##def compare_files():
+##def compare_files(): ## this function will compare the most recent file, with the second most recent file, and print out summary information INCOMPLETE
   ## newList = sorted(glob.glob("log*.txt")):
    ##with open(newList[-1], 'rb') as file1:
      ## with open(newList[-2], 'rb') as file2:
@@ -51,7 +50,7 @@ def hashing(file):
 if __name__=="__main__":
   main()
   
-  
+## RESOURCES USED FOR THIS LAB: 
 ## riptutorial.com/python/example/9666/file-hashing
 ## docs.python.org/3/library/os.html#files-and-directories
 ## pythontutorial.net/python-basic/python-dictionary
